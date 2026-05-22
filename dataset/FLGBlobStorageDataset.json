@@ -1,0 +1,33 @@
+{
+	"name": "FLGBlobStorageDataset",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LsAzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"fileRegexp": {
+				"type": "string"
+			},
+			"container": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": {
+					"value": "@dataset().fileRegexp",
+					"type": "Expression"
+				},
+				"container": {
+					"value": "@dataset().container",
+					"type": "Expression"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

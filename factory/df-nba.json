@@ -1,0 +1,15 @@
+{
+	"name": "df-nba",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Enabled",
+			"editable": true
+		}
+	},
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cc187815-0bec-4972-bae6-2733061ed7a1",
+		"tenantId": "216c2c0c-506f-4a94-b746-1bd05db6fa0f"
+	}
+}
