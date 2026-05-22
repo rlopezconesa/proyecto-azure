@@ -16,7 +16,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"folderPath": {
-					"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'))",
+					"value": "@formatDateTime(utcNow(), 'yyyyMMdd')",
 					"type": "Expression"
 				},
 				"container": {
