@@ -1,5 +1,5 @@
 {
-	"name": "nbaDataIngestion",
+	"name": "NBADataIngestion",
 	"properties": {
 		"activities": [
 			{
@@ -109,11 +109,11 @@
 				}
 			},
 			{
-				"name": "Copy data1",
+				"name": "FromSTGToRAW",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Delete1",
+						"activity": "DeleteFlag",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -168,7 +168,7 @@
 				]
 			},
 			{
-				"name": "Delete1",
+				"name": "DeleteFlag",
 				"type": "Delete",
 				"dependsOn": [
 					{
