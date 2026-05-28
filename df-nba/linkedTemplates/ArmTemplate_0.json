@@ -144,7 +144,43 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/nbaDataIngestion')]",
+			"name": "[concat(parameters('factoryName'), '/CreateRAWTables')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CreateRAWTables",
+						"type": "DatabricksNotebook",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"notebookPath": "/Users/1925110@alu365.murciaeduca.es/nba-tests"
+						},
+						"linkedServiceName": {
+							"referenceName": "AzureDatabricks1",
+							"type": "LinkedServiceReference"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/AzureDatabricks1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NBADataIngestion')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -256,11 +292,11 @@
 						}
 					},
 					{
-						"name": "Copy data1",
+						"name": "FromSTGToRAW",
 						"type": "Copy",
 						"dependsOn": [
 							{
-								"activity": "Delete1",
+								"activity": "DeleteFlag",
 								"dependencyConditions": [
 									"Succeeded"
 								]
@@ -315,7 +351,7 @@
 						]
 					},
 					{
-						"name": "Delete1",
+						"name": "DeleteFlag",
 						"type": "Delete",
 						"dependsOn": [
 							{
