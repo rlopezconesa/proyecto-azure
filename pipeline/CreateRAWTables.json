@@ -15,7 +15,7 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"notebookPath": "/Users/1925110@alu365.murciaeduca.es/nba-tests"
+					"notebookPath": ""
 				},
 				"linkedServiceName": {
 					"referenceName": "AzureDatabricks1",
