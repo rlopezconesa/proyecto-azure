@@ -1,0 +1,15 @@
+{
+	"name": "dfnba",
+	"properties": {
+		"trustModeClaimForMi": {
+			"value": "Disabled",
+			"editable": true
+		}
+	},
+	"location": "spaincentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "cbf6b100-95ac-45ab-866a-a709c1cfde6c",
+		"tenantId": "0aba6521-ce52-44d7-b06c-c6016ff2c30b"
+	}
+}

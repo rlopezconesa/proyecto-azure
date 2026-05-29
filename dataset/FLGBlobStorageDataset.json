@@ -2,7 +2,7 @@
 	"name": "FLGBlobStorageDataset",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsAzureBlobStorage",
+			"referenceName": "LinkedServiceAzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {

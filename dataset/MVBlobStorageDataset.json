@@ -2,7 +2,7 @@
 	"name": "MVBlobStorageDataset",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LsAzureBlobStorage",
+			"referenceName": "LinkedServiceAzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
 		"parameters": {

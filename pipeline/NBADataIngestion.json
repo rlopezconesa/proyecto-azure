@@ -64,11 +64,6 @@
 								"fieldList": [
 									"exists"
 								],
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
 								"formatSettings": {
 									"type": "BinaryReadSettings"
 								}
@@ -132,8 +127,7 @@
 						"type": "BinarySource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"deleteFilesAfterCompletion": false
+							"recursive": true
 						},
 						"formatSettings": {
 							"type": "BinaryReadSettings"
@@ -205,15 +199,33 @@
 						"enablePartitionDiscovery": false
 					}
 				}
+			},
+			{
+				"name": "IfMovingPlayers",
+				"type": "IfCondition",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.movePlayers",
+						"type": "Expression"
+					}
+				}
 			}
 		],
+		"parameters": {
+			"movePlayers": {
+				"type": "bool",
+				"defaultValue": false
+			}
+		},
 		"variables": {
 			"flagName": {
 				"type": "String"
 			}
 		},
 		"annotations": [],
-		"lastPublishTime": "2026-05-22T15:42:37Z"
+		"lastPublishTime": "2026-05-29T16:22:02Z"
 	},
 	"type": "Microsoft.DataFactory/factories/pipelines"
 }
