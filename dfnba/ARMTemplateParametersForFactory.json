@@ -14,11 +14,23 @@
 		"LsAzureBlobStorage_connectionString": {
 			"value": ""
 		},
+		"SqlServer1_password": {
+			"value": ""
+		},
 		"AzureDatabricks1_properties_typeProperties_existingClusterId": {
 			"value": "0515-153143-omsar4c2"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://db-kv.vault.azure.net/"
+		},
+		"SqlServer1_properties_typeProperties_server": {
+			"value": "nbasqlserver.database.windows.net"
+		},
+		"SqlServer1_properties_typeProperties_database": {
+			"value": "nbadb"
+		},
+		"SqlServer1_properties_typeProperties_userName": {
+			"value": "adminnba"
 		}
 	}
 }
