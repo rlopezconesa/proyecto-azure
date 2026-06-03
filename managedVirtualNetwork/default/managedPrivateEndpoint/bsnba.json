@@ -1,0 +1,7 @@
+{
+	"name": "bsnba",
+	"properties": {
+		"privateLinkResourceId": "/subscriptions/64b9deef-f963-4739-abb9-567c9dddd160/resourceGroups/rg-nba/providers/Microsoft.Storage/storageAccounts/stgnba",
+		"groupId": "blob"
+	}
+}
