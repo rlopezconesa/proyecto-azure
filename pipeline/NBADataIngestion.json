@@ -66,6 +66,7 @@
 								],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
@@ -201,18 +202,6 @@
 						"type": "AzureBlobStorageReadSettings",
 						"recursive": false,
 						"enablePartitionDiscovery": false
-					}
-				}
-			},
-			{
-				"name": "IfMovingPlayers",
-				"type": "IfCondition",
-				"dependsOn": [],
-				"userProperties": [],
-				"typeProperties": {
-					"expression": {
-						"value": "@pipeline().parameters.movePlayers",
-						"type": "Expression"
 					}
 				}
 			}
