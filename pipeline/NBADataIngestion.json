@@ -50,17 +50,6 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"dataset": {
-									"referenceName": "FLGBlobStorageDataset",
-									"type": "DatasetReference",
-									"parameters": {
-										"fileRegexp": {
-											"value": "@variables('flagName')",
-											"type": "Expression"
-										},
-										"container": "stg"
-									}
-								},
 								"fieldList": [
 									"exists"
 								],
@@ -186,17 +175,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataset": {
-						"referenceName": "FLGBlobStorageDataset",
-						"type": "DatasetReference",
-						"parameters": {
-							"fileRegexp": {
-								"value": "@variables('flagName')",
-								"type": "Expression"
-							},
-							"container": "stg"
-						}
-					},
 					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
