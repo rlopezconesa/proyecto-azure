@@ -1,0 +1,27 @@
+{
+	"name": "NBATeams",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServiceAzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "team.csv",
+				"folderPath": {
+					"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'), '/team')",
+					"type": "Expression"
+				},
+				"container": "raw"
+			},
+			"columnDelimiter": "",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
