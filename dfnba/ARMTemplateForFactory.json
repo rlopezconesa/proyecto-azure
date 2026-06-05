@@ -103,22 +103,17 @@
 									"userProperties": [],
 									"typeProperties": {
 										"dataset": {
-											"referenceName": "FLGBlobStorageDataset",
+											"referenceName": "MVBlobStorageDataset",
 											"type": "DatasetReference",
 											"parameters": {
-												"fileRegexp": {
-													"value": "@variables('flagName')",
-													"type": "Expression"
-												},
-												"container": "stg"
+												"container": "fcyyfd"
 											}
 										},
 										"fieldList": [
-											"exists"
+											"itemName"
 										],
 										"storeSettings": {
 											"type": "AzureBlobStorageReadSettings",
-											"recursive": true,
 											"enablePartitionDiscovery": false
 										},
 										"formatSettings": {
@@ -239,14 +234,10 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataset": {
-								"referenceName": "FLGBlobStorageDataset",
+								"referenceName": "MVBlobStorageDataset",
 								"type": "DatasetReference",
 								"parameters": {
-									"fileRegexp": {
-										"value": "@variables('flagName')",
-										"type": "Expression"
-									},
-									"container": "stg"
+									"container": "bgyi"
 								}
 							},
 							"enableLogging": false,
@@ -276,45 +267,7 @@
 				"lastPublishTime": "2026-05-29T16:22:02Z"
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/MVBlobStorageDataset')]",
-				"[concat(variables('factoryId'), '/datasets/FLGBlobStorageDataset')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/FLGBlobStorageDataset')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LinkedServiceAzureBlobStorage",
-					"type": "LinkedServiceReference"
-				},
-				"parameters": {
-					"fileRegexp": {
-						"type": "string"
-					},
-					"container": {
-						"type": "string"
-					}
-				},
-				"annotations": [],
-				"type": "Binary",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": {
-							"value": "@dataset().fileRegexp",
-							"type": "Expression"
-						},
-						"container": {
-							"value": "@dataset().container",
-							"type": "Expression"
-						}
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LinkedServiceAzureBlobStorage')]"
+				"[concat(variables('factoryId'), '/datasets/MVBlobStorageDataset')]"
 			]
 		},
 		{
@@ -511,6 +464,503 @@
 			"apiVersion": "2018-06-01",
 			"properties": {},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQLDataIngestion')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "IfPlayerExist",
+						"type": "IfCondition",
+						"dependsOn": [],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.player",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "CopyPlayer",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlServerSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"mappings": [
+												{
+													"source": {
+														"name": "id",
+														"type": "String",
+														"physicalType": "String"
+													},
+													"sink": {
+														"name": "ID",
+														"type": "Int32",
+														"physicalType": "int"
+													}
+												},
+												{
+													"source": {
+														"name": "full_name",
+														"type": "String",
+														"physicalType": "String"
+													},
+													"sink": {
+														"name": "Full_Name",
+														"type": "String",
+														"physicalType": "varchar"
+													}
+												},
+												{
+													"source": {
+														"name": "first_name",
+														"type": "String",
+														"physicalType": "String"
+													},
+													"sink": {
+														"name": "First_Name",
+														"type": "String",
+														"physicalType": "varchar"
+													}
+												},
+												{
+													"source": {
+														"name": "last_name",
+														"type": "String",
+														"physicalType": "String"
+													},
+													"sink": {
+														"name": "Last_Name",
+														"type": "String",
+														"physicalType": "varchar"
+													}
+												},
+												{
+													"source": {
+														"name": "is_active",
+														"type": "String",
+														"physicalType": "String"
+													},
+													"sink": {
+														"name": "Is_Active",
+														"type": "Int32",
+														"physicalType": "int"
+													}
+												}
+											],
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "NBAPlayers",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SqlServerPlayer",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "IfTeamExist",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "IfPlayerExist",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.team",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "CopyTeam",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlServerSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "NBATeams",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SqlServerTeam",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					},
+					{
+						"name": "IfOfficialsExist",
+						"type": "IfCondition",
+						"dependsOn": [
+							{
+								"activity": "IfTeamExist",
+								"dependencyConditions": [
+									"Completed"
+								]
+							}
+						],
+						"userProperties": [],
+						"typeProperties": {
+							"expression": {
+								"value": "@pipeline().parameters.oficials",
+								"type": "Expression"
+							},
+							"ifTrueActivities": [
+								{
+									"name": "CopyOfficials",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "DelimitedTextSource",
+											"storeSettings": {
+												"type": "AzureBlobStorageReadSettings",
+												"recursive": true,
+												"enablePartitionDiscovery": false
+											},
+											"formatSettings": {
+												"type": "DelimitedTextReadSettings"
+											}
+										},
+										"sink": {
+											"type": "SqlServerSink",
+											"writeBehavior": "insert",
+											"sqlWriterUseTableLock": false
+										},
+										"enableStaging": false,
+										"translator": {
+											"type": "TabularTranslator",
+											"typeConversion": true,
+											"typeConversionSettings": {
+												"allowDataTruncation": true,
+												"treatBooleanAsNumber": false
+											}
+										}
+									},
+									"inputs": [
+										{
+											"referenceName": "NBATeamsOfficials",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									],
+									"outputs": [
+										{
+											"referenceName": "SqlServerOfficials",
+											"type": "DatasetReference",
+											"parameters": {}
+										}
+									]
+								}
+							]
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"parameters": {
+					"player": {
+						"type": "bool",
+						"defaultValue": true
+					},
+					"team": {
+						"type": "bool",
+						"defaultValue": false
+					},
+					"oficials": {
+						"type": "bool",
+						"defaultValue": false
+					}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/NBAPlayers')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerPlayer')]",
+				"[concat(variables('factoryId'), '/datasets/NBATeams')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerTeam')]",
+				"[concat(variables('factoryId'), '/datasets/NBATeamsOfficials')]",
+				"[concat(variables('factoryId'), '/datasets/SqlServerOfficials')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NBAPlayers')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LinkedServiceAzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "player.csv",
+						"folderPath": {
+							"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'), '/player')",
+							"type": "Expression"
+						},
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LinkedServiceAzureBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerTeam')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Full_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Is_Active",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "nbateam"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SqlServerOfficials')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "SqlServer1",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "SqlServerTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Full_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "First_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Last_Name",
+						"type": "varchar"
+					},
+					{
+						"name": "Is_Active",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "nbaofficials"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/SqlServer1')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NBATeams')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LinkedServiceAzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "team.csv",
+						"folderPath": {
+							"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'), '/team')",
+							"type": "Expression"
+						},
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LinkedServiceAzureBlobStorage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/NBATeamsOfficials')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LinkedServiceAzureBlobStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "officials.csv",
+						"folderPath": {
+							"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'), '/officials')",
+							"type": "Expression"
+						},
+						"container": "raw"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LinkedServiceAzureBlobStorage')]"
+			]
 		}
 	]
 }
