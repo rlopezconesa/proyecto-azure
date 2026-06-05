@@ -50,17 +50,7 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"fieldList": [
-									"exists"
-								],
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
-									"enablePartitionDiscovery": false
-								},
-								"formatSettings": {
-									"type": "BinaryReadSettings"
-								}
+								"fieldList": []
 							}
 						},
 						{
