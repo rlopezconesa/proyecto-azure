@@ -50,7 +50,18 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"fieldList": []
+								"dataset": {
+									"referenceName": "MVBlobStorageDataset",
+									"type": "DatasetReference"
+								},
+								"fieldList": [],
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"enablePartitionDiscovery": false
+								},
+								"formatSettings": {
+									"type": "BinaryReadSettings"
+								}
 							}
 						},
 						{
@@ -165,6 +176,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataset": {
+						"referenceName": "MVBlobStorageDataset",
+						"type": "DatasetReference"
+					},
 					"enableLogging": false,
 					"storeSettings": {
 						"type": "AzureBlobStorageReadSettings",
