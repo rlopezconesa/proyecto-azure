@@ -3,11 +3,15 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "If Condition1",
+				"name": "IfPlayerExist",
 				"type": "IfCondition",
 				"dependsOn": [],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.player",
+						"type": "Expression"
+					},
 					"ifTrueActivities": [
 						{
 							"name": "CopyPlayer",
@@ -65,11 +69,22 @@
 				}
 			},
 			{
-				"name": "If Condition2",
+				"name": "IfTeamExist",
 				"type": "IfCondition",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "IfPlayerExist",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.team",
+						"type": "Expression"
+					},
 					"ifTrueActivities": [
 						{
 							"name": "CopyTeam",
@@ -84,21 +99,68 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"enableStaging": false
-							}
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "SqlServerSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "NBATeams",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "SqlServerTeam",
+									"type": "DatasetReference"
+								}
+							]
 						}
 					]
 				}
 			},
 			{
-				"name": "If Condition3",
+				"name": "IfOfficialsExist",
 				"type": "IfCondition",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "IfTeamExist",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"userProperties": [],
 				"typeProperties": {
+					"expression": {
+						"value": "@pipeline().parameters.oficials",
+						"type": "Expression"
+					},
 					"ifTrueActivities": [
 						{
-							"name": "Copy",
+							"name": "CopyOfficials",
 							"type": "Copy",
 							"dependsOn": [],
 							"policy": {
@@ -110,13 +172,60 @@
 							},
 							"userProperties": [],
 							"typeProperties": {
-								"enableStaging": false
-							}
+								"source": {
+									"type": "DelimitedTextSource",
+									"storeSettings": {
+										"type": "AzureBlobStorageReadSettings",
+										"recursive": true,
+										"enablePartitionDiscovery": false
+									},
+									"formatSettings": {
+										"type": "DelimitedTextReadSettings"
+									}
+								},
+								"sink": {
+									"type": "SqlServerSink",
+									"writeBehavior": "insert",
+									"sqlWriterUseTableLock": false
+								},
+								"enableStaging": false,
+								"translator": {
+									"type": "TabularTranslator",
+									"typeConversion": true,
+									"typeConversionSettings": {
+										"allowDataTruncation": true,
+										"treatBooleanAsNumber": false
+									}
+								}
+							},
+							"inputs": [
+								{
+									"referenceName": "NBATeamsOfficials",
+									"type": "DatasetReference"
+								}
+							],
+							"outputs": [
+								{
+									"referenceName": "SqlServerOfficials",
+									"type": "DatasetReference"
+								}
+							]
 						}
 					]
 				}
 			}
 		],
+		"parameters": {
+			"player": {
+				"type": "bool"
+			},
+			"team": {
+				"type": "bool"
+			},
+			"oficials": {
+				"type": "bool"
+			}
+		},
 		"annotations": []
 	}
 }
