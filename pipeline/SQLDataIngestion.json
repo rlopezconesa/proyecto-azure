@@ -217,13 +217,16 @@
 		],
 		"parameters": {
 			"player": {
-				"type": "bool"
+				"type": "bool",
+				"defaultValue": true
 			},
 			"team": {
-				"type": "bool"
+				"type": "bool",
+				"defaultValue": false
 			},
 			"oficials": {
-				"type": "bool"
+				"type": "bool",
+				"defaultValue": false
 			}
 		},
 		"annotations": []
