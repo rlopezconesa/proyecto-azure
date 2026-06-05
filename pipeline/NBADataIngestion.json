@@ -52,9 +52,14 @@
 							"typeProperties": {
 								"dataset": {
 									"referenceName": "MVBlobStorageDataset",
-									"type": "DatasetReference"
+									"type": "DatasetReference",
+									"parameters": {
+										"container": "fcyyfd"
+									}
 								},
-								"fieldList": [],
+								"fieldList": [
+									"itemName"
+								],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"enablePartitionDiscovery": false
@@ -178,7 +183,10 @@
 				"typeProperties": {
 					"dataset": {
 						"referenceName": "MVBlobStorageDataset",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"container": "bgyi"
+						}
 					},
 					"enableLogging": false,
 					"storeSettings": {
