@@ -34,5 +34,6 @@
 			"schema": "dbo",
 			"table": "nbateam"
 		}
-	}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
 }
