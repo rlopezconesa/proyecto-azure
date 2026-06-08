@@ -2,7 +2,7 @@
 	"name": "MVBlobStorageSTG",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "LinkedServiceAzureBlobStorage",
+			"referenceName": "LsAzureBlobStorage",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
