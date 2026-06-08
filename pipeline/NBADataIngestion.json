@@ -51,22 +51,16 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "MVBlobStorageDataset",
-									"type": "DatasetReference",
-									"parameters": {
-										"container": "fcyyfd"
-									}
+									"referenceName": "MVBlobStorageSTG",
+									"type": "DatasetReference"
 								},
-								"fieldList": [
-									"itemName"
-								],
+								"fieldList": [],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
-									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "BinaryReadSettings"
+									"type": "DelimitedTextReadSettings"
 								}
 							}
 						},
@@ -125,13 +119,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "BinarySource",
+						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
 							"recursive": true
 						},
 						"formatSettings": {
-							"type": "BinaryReadSettings"
+							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
@@ -145,16 +139,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "MVBlobStorageDataset",
-						"type": "DatasetReference",
-						"parameters": {
-							"container": "stg"
-						}
+						"referenceName": "MVBlobStorageSTG",
+						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "MVBlobStorageDataset",
+						"referenceName": "MVBlobStorageRAW",
 						"type": "DatasetReference",
 						"parameters": {
 							"container": "raw"
@@ -183,11 +174,8 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "MVBlobStorageDataset",
-						"type": "DatasetReference",
-						"parameters": {
-							"container": "bgyi"
-						}
+						"referenceName": "MVBlobStorageSTG",
+						"type": "DatasetReference"
 					},
 					"enableLogging": false,
 					"storeSettings": {

@@ -1,5 +1,5 @@
 {
-	"name": "MVBlobStorageDataset",
+	"name": "MVBlobStorageRAW",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LinkedServiceAzureBlobStorage",
