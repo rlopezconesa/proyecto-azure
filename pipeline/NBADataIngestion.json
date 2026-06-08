@@ -133,8 +133,7 @@
 					"sink": {
 						"type": "BinarySink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings",
-							"copyBehavior": "PreserveHierarchy"
+							"type": "AzureBlobStorageWriteSettings"
 						}
 					},
 					"enableStaging": false
@@ -148,10 +147,7 @@
 				"outputs": [
 					{
 						"referenceName": "MVBlobStorageRAW",
-						"type": "DatasetReference",
-						"parameters": {
-							"container": "raw"
-						}
+						"type": "DatasetReference"
 					}
 				]
 			},
