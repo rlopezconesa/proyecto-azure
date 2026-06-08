@@ -1,0 +1,37 @@
+{
+	"name": "SQLDataMix",
+	"properties": {
+		"activities": [
+			{
+				"name": "MoveDataToMix",
+				"type": "Script",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"linkedServiceName": {
+					"referenceName": "SqlServer1",
+					"type": "LinkedServiceReference"
+				},
+				"typeProperties": {
+					"scripts": [
+						{
+							"type": "Query",
+							"text": {
+								"value": "TRUNCATE TABLE dbo.nbamix;\n\nINSERT INTO dbo.nbamix (id_player, id_team)\nSELECT \n    p.ID,  \n    t.ID   \nFROM dbo.nbaplayer p\nCROSS JOIN dbo.nbateam t;",
+								"type": "Expression"
+							}
+						}
+					],
+					"scriptBlockExecutionTimeout": "02:00:00"
+				}
+			}
+		],
+		"annotations": []
+	}
+}
