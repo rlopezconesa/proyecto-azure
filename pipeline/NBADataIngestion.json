@@ -54,7 +54,9 @@
 									"referenceName": "MVBlobStorageSTG",
 									"type": "DatasetReference"
 								},
-								"fieldList": [],
+								"fieldList": [
+									"exists"
+								],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
 									"enablePartitionDiscovery": false
