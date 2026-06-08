@@ -262,7 +262,7 @@
 							},
 							"inputs": [
 								{
-									"referenceName": "NBATeamsOfficials",
+									"referenceName": "NBAOfficials",
 									"type": "DatasetReference"
 								}
 							],

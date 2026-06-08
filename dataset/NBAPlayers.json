@@ -11,10 +11,7 @@
 			"location": {
 				"type": "AzureBlobStorageLocation",
 				"fileName": "player.csv",
-				"folderPath": {
-					"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'), '/player')",
-					"type": "Expression"
-				},
+				"folderPath": "player",
 				"container": "raw"
 			},
 			"columnDelimiter": ",",

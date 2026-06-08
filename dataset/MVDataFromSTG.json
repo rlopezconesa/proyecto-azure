@@ -1,0 +1,17 @@
+{
+	"name": "MVDataFromSTG",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LinkedServiceAzureBlobStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "stg"
+			}
+		}
+	}
+}

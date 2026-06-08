@@ -51,7 +51,7 @@
 							"userProperties": [],
 							"typeProperties": {
 								"dataset": {
-									"referenceName": "MVBlobStorageSTG",
+									"referenceName": "MVDataFromSTG",
 									"type": "DatasetReference"
 								},
 								"fieldList": [
@@ -59,10 +59,11 @@
 								],
 								"storeSettings": {
 									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
 									"enablePartitionDiscovery": false
 								},
 								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
+									"type": "BinaryReadSettings"
 								}
 							}
 						},
@@ -121,32 +122,39 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "BinarySource",
 						"storeSettings": {
 							"type": "AzureBlobStorageReadSettings",
-							"recursive": true
+							"recursive": true,
+							"wildcardFolderPath": {
+								"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'))",
+								"type": "Expression"
+							},
+							"wildcardFileName": "*",
+							"deleteFilesAfterCompletion": false
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "BinaryReadSettings"
 						}
 					},
 					"sink": {
 						"type": "BinarySink",
 						"storeSettings": {
-							"type": "AzureBlobStorageWriteSettings"
+							"type": "AzureBlobStorageWriteSettings",
+							"copyBehavior": "PreserveHierarchy"
 						}
 					},
 					"enableStaging": false
 				},
 				"inputs": [
 					{
-						"referenceName": "MVBlobStorageSTG",
+						"referenceName": "MVDataFromSTG",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "MVBlobStorageRAW",
+						"referenceName": "MVDataFromRAW",
 						"type": "DatasetReference"
 					}
 				]
@@ -172,7 +180,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataset": {
-						"referenceName": "MVBlobStorageSTG",
+						"referenceName": "MVDataFromSTG",
 						"type": "DatasetReference"
 					},
 					"enableLogging": false,
@@ -184,12 +192,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"movePlayers": {
-				"type": "bool",
-				"defaultValue": false
-			}
-		},
 		"variables": {
 			"flagName": {
 				"type": "String"

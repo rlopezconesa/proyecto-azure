@@ -1,5 +1,5 @@
 {
-	"name": "NBATeamsOfficials",
+	"name": "NBAOfficials",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LinkedServiceAzureBlobStorage",
@@ -12,7 +12,7 @@
 				"type": "AzureBlobStorageLocation",
 				"fileName": "officials.csv",
 				"folderPath": {
-					"value": "@concat(formatDateTime(utcNow(), 'yyyyMMdd'), '/officials')",
+					"value": "officials",
 					"type": "Expression"
 				},
 				"container": "raw"
